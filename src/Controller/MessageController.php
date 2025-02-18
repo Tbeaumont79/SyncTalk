@@ -16,8 +16,12 @@ final class MessageController extends AbstractController
         $this->messageService = $messageService;
     }
     
-    
-    #[Route('/message', name: 'send_message', methods: "{POST}")]
+    #[Route('/message', name: 'get_message', methods: ['GET'])]
+    public function getMessage() {
+        return $this->render('message/index.html.twig');
+    }
+
+    #[Route('/message', name: 'send_message', methods: ['POST'])]
     public function sendMessage(Request $request) : void {
         $content = $request->get('content');
         $author = $this->getUser();
