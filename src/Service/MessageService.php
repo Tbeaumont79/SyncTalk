@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
+use Symfony\Component\HttpFoundation\Response;
 class MessageService extends AbstractController { 
     private $em;
     private $hub;
@@ -17,7 +18,7 @@ class MessageService extends AbstractController {
         $this->hub = $hub;
     }
 
-    public function sendMessage(string $content, string $author) : void {
+    public function sendMessage(string $content, string $author) {
         $message = new Message();
         $message->setContent($content);
         $message->setCreatedAt(new \DateTimeImmutable());
@@ -28,11 +29,12 @@ class MessageService extends AbstractController {
         $this->em->flush();
 
         $update = new Update(
-            'https://example.com/messages',
+            'https://example.com/.well-known/mercure/messages',
             json_encode([
                 'status' => 'message successfuly sent',
             ])
             );
             $this->hub->publish($update);
+            return new Response("data published");
     }
 }
