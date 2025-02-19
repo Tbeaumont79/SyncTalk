@@ -36,9 +36,18 @@
     <form action="/message" method="POST">
         <label>New message : </label>
         <div>
-            <input name="content" />
+            <input name="content" required/>
             <button type="submit" class="submit">Submit</button>
         </div>
     </form>
 </div>
+
+{% block javascript %}
+ <script>
+    const eventSource = new EventSource("http://localhost:3000/.well-known/mercure?topic=https://example.com/messages");
+    eventSource.onmessage = (event) => {
+        const notification = JSON.parse(event.data)
+    }
+ </script>
+{% endblock %}
 {% endblock %}
