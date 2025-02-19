@@ -32,12 +32,7 @@
 
 <div class="example-wrapper">
     <h1>Hello</h1>
-    <div id="message">   {% for message in messages %}
-            <li>
-                <strong>{{ message.author.username }}</strong> : {{ message.content }}
-                <small>({{ message.createdAt|date('H:i:s') }})</small>
-            </li>
-        {% endfor %}</div>
+    <div id="message"></div>
     <form action="/message" method="POST">
         <label>New message : </label>
         <div>
@@ -50,13 +45,12 @@
 {% block javascript %}
  <script>
     const messageBox = document.getElementById('message');
-    const eventSource = new EventSource("https://example.com/.well-known/mercure/messages");
+    const eventSource = new EventSource("{{ mercure('https://example.com/messages')|escape('js') }}");
     // voir ici le problem dans l'url
     eventSource.onmessage = (event) => {
+        console.log(event.data)
         const msg = JSON.parse(event.data);
-        msg.innerHTML += '<p>' + msg.status + '</p>';
-        console.log(message.status);
-
+        messageBox.innerHTML += '<p>' + msg['status'] + '</p>';
     }
  </script>
 {% endblock %}

@@ -29,9 +29,9 @@ class MessageService extends AbstractController {
         $this->em->flush();
 
         $update = new Update(
-            'https://example.com/.well-known/mercure/messages',
+            'https://example.com/messages',
             json_encode([
-                'status' => 'message successfuly sent',
+                'status' => $content,
             ])
             );
             $this->hub->publish($update);
