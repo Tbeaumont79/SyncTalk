@@ -22,7 +22,7 @@ final class MessageController extends AbstractController
     }
 
     #[Route('/message', name: 'send_message', methods: ['POST'])]
-    public function sendMessage(Request $request) : void {
+    public function sendMessage(Request $request) {
         $content = $request->get('content');
         $author = $this->getUser();
         if ($author) {
@@ -32,6 +32,6 @@ final class MessageController extends AbstractController
             throw new \Exception("No User is authenticated ! ");
         }
         $this->messageService->sendMessage($content, $author);
-        $this->redirect('chat');
+        return $this->redirect('message');
     }
 }

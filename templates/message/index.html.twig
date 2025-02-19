@@ -44,9 +44,12 @@
 
 {% block javascript %}
  <script>
+    const messageBox = document.getElementById('message');
     const eventSource = new EventSource("http://localhost:3000/.well-known/mercure?topic=https://example.com/messages");
     eventSource.onmessage = (event) => {
-        const notification = JSON.parse(event.data)
+        const msg = JSON.parse(event.data);
+        msg.innerHTML += '<p>' + msg.message + '</p>';
+
     }
  </script>
 {% endblock %}

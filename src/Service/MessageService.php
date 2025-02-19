@@ -5,9 +5,10 @@ namespace App\Service;
 use App\Entity\User;
 use App\Entity\Message;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
-class MessageService { 
+class MessageService extends AbstractController { 
     private $em;
     private $hub;
 
