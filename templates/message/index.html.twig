@@ -46,7 +46,6 @@
  <script>
     const messageBox = document.getElementById('message');
     const eventSource = new EventSource("{{ mercure('https://example.com/messages')|escape('js') }}");
-    // voir ici le problem dans l'url
     eventSource.onmessage = (event) => {
         console.log(event.data)
         const msg = JSON.parse(event.data);
