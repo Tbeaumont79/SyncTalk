@@ -1,13 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
 
-@theme {
-  --color-primary: #2634fc;
-  --color-lighttext: #dbe9ff;
-  --color-bluelightgray: #b8b8cf;
-  --color-darktext: #000033;
-  --color-lightBackground: #ecf3ff;
-  --color-darkBackground: #000033;
+@font-face {
+  font-family: poppins;
+  src: url("/fonts/Poppins/Poppins-Regular.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: poppins;
+  src: url("/fonts/Poppins/Poppins-Bold.ttf");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: poppins;
+  src: url("/fonts/Poppins/Poppins-Italic.ttf");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: roboto;
+  src: url("/fonts/Roboto/Roboto-VariableFont_wdth\,wght.ttf");
+  font-weight: normal;
+  font-style: normal;
 }
 @keyframes border-pulse {
   0%,
@@ -20,4 +36,15 @@
 }
 .animate-border-pulse {
   animation: border-pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+@theme {
+  --color-primary: #2634fc;
+  --color-lighttext: #dbe9ff;
+  --color-bluelightgray: #b8b8cf;
+  --color-darktext: #000033;
+  --color-lightBackground: #ecf3ff;
+  --color-darkBackground: #000033;
+
+  --font-poppins: "poppins", sans-serif;
+  --font-roboto: "roboto", sans-serif;
 }
