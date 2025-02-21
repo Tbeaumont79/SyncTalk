@@ -9,7 +9,7 @@
     >
   </div>
   <form
-    class="flex flex-col font-roboto items-start justify-center p-4 mt-4 gap-2"
+    class="flex flex-col h-2/3 font-roboto items-start justify-center p-4 mt-4 gap-2"
   >
     <label for="email" class="text-xs text-darktext">Email address :</label>
     <input
@@ -17,7 +17,7 @@
       placeholder="exemple@gmail.com"
       class="text-xs p-4 font-roboto rounded-lg text-darktext input-info w-full border-[1px] border-bluelightgray"
     />
-    <label for="password" class="text-xs font-roboto text-darktext"
+    <label for="password" class="text-xs pt-4 font-roboto text-darktext"
       >Password :</label
     >
     <input
@@ -32,6 +32,7 @@
         I Agree to terms and conditions
         <input
           type="checkbox"
+          required
           class="absolute left-1/2 -translate-x-1/2 w-full h-full peer appearance-none rounded-md"
         />
         <span
@@ -39,10 +40,18 @@
         ></span>
       </label>
       <button
-        class="text-darktext font-roboto text-sm bg-lightBackground border-[1.5px] animate-border-pulse px-6 py-3  hover:border-primary hover:text-lighttext p-4 rounded-lg w-full max-w-base"
+        class="text-darktext mt-2 font-roboto text-sm bg-lightBackground border-[1.5px] animate-border-pulse hover:border-primary hover:text-lighttext p-4 rounded-lg w-full max-w-base"
       >
         Sign Up
       </button>
+      <span class="text-xs font-roboto pt-4 text-bluelightgray"
+        >Already have an account ?
+        <router-link
+          class="text-xs text-darktext font-roboto hover:text-primary"
+          [routerLink]="['/login']"
+          >Sign In</router-link
+        >
+      </span>
     </div>
   </form>
 </section>
