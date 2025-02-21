@@ -2,7 +2,9 @@
   <div class="h-[150px] flex items-center justify-center">
     <p class="text-xl text-darktext font-poppins">Welcome back !</p>
   </div>
-  <form class="flex flex-col items-start justify-center mt-4 p-4 gap-2">
+  <form
+    class="flex flex-col h-2/3 items-start justify-center mt-4 pb-4 pl-4 pr-4 gap-2"
+  >
     <label for="email" class="text-xs text-darktext font-roboto"
       >Email address :</label
     >
@@ -11,39 +13,30 @@
       placeholder="exemple@gmail.com"
       class="text-xs p-4 rounded-lg font-roboto text-darktext input-info w-full border-[1px] border-bluelightgray"
     />
-    <label for="password" class="text-xs font-roboto text-darktext"
+    <label for="password" class="text-xs font-roboto pt-4 text-darktext"
       >Password :</label
     >
     <input
       type="password"
-      placeholder="min 8 characters"
+      placeholder="*****************"
       class="text-xs p-4 rounded-lg text-darktext font-roboto input-info w-full border-[1px] border-bluelightgray"
     />
     <span class="text-xs font-roboto text-bluelightgray"
       >Forgot your password ?</span
     >
 
-    <div class="flex flex-col justify-center w-full gap-4">
-      <label for="terms" class="flex justify-between w-full gap-2 pt-4">
-        <p class="text-xs font-roboto text-darktext">remember me next time</p>
-        <input type="checkbox" value="" class="sr-only" />
-        <div
-          class="relative w-7.5 h-4 rounded-full dark:bg-darkBackground peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600"
-        ></div>
-      </label>
-      <button
-        class="text-darktext font-roboto text-sm bg-lightBackground border-[1.5px] animate-border-pulse px-6 py-3 border-primary hover:bg-primary hover:text-lighttext p-4 rounded-lg w-full max-w-base"
+    <button
+      class="text-darktext font-roboto mt-4 p-4 text-sm bg-lightBackground border-[1.5px] animate-border-pulse border-primary hover:bg-primary hover:text-lighttext rounded-lg w-full max-w-base"
+    >
+      Login
+    </button>
+    <span class="text-xs font-roboto pt-4 text-bluelightgray"
+      >Don't have an account ?
+      <router-link
+        class="text-xs text-darktext font-roboto hover:text-primary"
+        [routerLink]="['/register']"
+        >Sign Up</router-link
       >
-        Login
-      </button>
-      <span class="text-xs font-roboto text-bluelightgray"
-        >Don't have an account ?
-        <router-link
-          class="text-xs text-darktext font-roboto hover:text-primary"
-          [routerLink]="['/register']"
-          >Sign Up</router-link
-        >
-      </span>
-    </div>
+    </span>
   </form>
 </section>

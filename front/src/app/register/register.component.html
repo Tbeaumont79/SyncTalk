@@ -26,17 +26,20 @@
       class="text-xs p-4 rounded-lg font-roboto text-darktext input-info w-full border-[1px] border-bluelightgray"
     />
     <div class="flex flex-col justify-center w-full gap-4">
-      <label for="terms" class="flex justify-between w-full gap-2 pt-4">
-        <p class="text-xs font-roboto text-darktext">
-          I agree to the terms and conditions
-        </p>
-        <input type="checkbox" value="" class="sr-only" />
-        <div
-          class="relative w-7.5 h-4 rounded-full dark:bg-darkBackground peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600"
-        ></div>
+      <label
+        class="relative flex justify-between items-center group p-2 text-xs"
+      >
+        I Agree to terms and conditions
+        <input
+          type="checkbox"
+          class="absolute left-1/2 -translate-x-1/2 w-full h-full peer appearance-none rounded-md"
+        />
+        <span
+          class="w-8.5 h-5 flex items-center flex-shrink-0 ml-2 p-1 bg-gray-300 rounded-full duration-300 ease-in-out peer-checked:bg-primary after:w-4 after:h-4 after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-2.5 group-hover:after:translate-x-1"
+        ></span>
       </label>
       <button
-        class="text-darktext font-roboto text-sm bg-lightBackground border-[1.5px] animate-border-pulse px-6 py-3 border-primary hover:bg-primary hover:text-lighttext p-4 rounded-lg w-full max-w-base"
+        class="text-darktext font-roboto text-sm bg-lightBackground border-[1.5px] animate-border-pulse px-6 py-3  hover:border-primary hover:text-lighttext p-4 rounded-lg w-full max-w-base"
       >
         Sign Up
       </button>
