@@ -1,11 +1,12 @@
 <section class="h-screen w-full bg-lightBackground">
   <div class="flex items-start justify-between p-4">
     <p class=""><-</p>
-    <span class="text-sm text-bluelightgray">Forgot your password ?</span>
+    <span class="text-xs text-bluelightgray">Forgot your password ?</span>
   </div>
+
   <form class="flex flex-col items-start justify-center mt-4 p-4 gap-2">
     <label for="email" class="text-xs text-darktext"
-      >Your email address :</label
+      >Type your email address :</label
     >
     <input
       type="email"
@@ -13,7 +14,7 @@
       class="text-xs p-4 rounded-lg text-darktext input-info w-full border-[1px] border-bluelightgray"
     />
     <label for="password" class="text-xs text-darktext"
-      >Choose a password :</label
+      >Type your password :</label
     >
     <input
       type="password"
@@ -35,7 +36,12 @@
       </button>
       <span class="text-xs text-bluelightgray"
         >Don't have an account ?
-        <router-link class="text-xs text-darktext hover:text-primary" [routerLink]="['/register']">Sign Up</router-link>
+        <router-link
+          class="text-xs text-darktext hover:text-primary"
+          [routerLink]="['/register']"
+          >Sign Up</router-link
+        >
+      </span>
     </div>
   </form>
 </section>
