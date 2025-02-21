@@ -1,2 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
+
+@theme {
+  --color-primary: #2634fc;
+  --color-lighttext: #dbe9ff;
+  --color-bluelightgray: #b8b8cf;
+  --color-darktext: #000033;
+  --color-lightBackground: #ecf3ff;
+  --color-darkBackground: #000033;
+}
+@keyframes border-pulse {
+  0%,
+  100% {
+    border-color: #000033; /* sky-400 */
+  }
+  50% {
+    border-color: #2634fc; /* blue-900 */
+  }
+}
+.animate-border-pulse {
+  animation: border-pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}

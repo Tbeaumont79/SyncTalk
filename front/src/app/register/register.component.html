@@ -1,0 +1,39 @@
+<section class="h-screen w-full bg-lightBackground">
+  <div class="flex flex-col items-start justify-center m-auto p-4 gap-2">
+    <p class=""><-</p>
+    <h1 class="text-xl color-darktext">Let's Get Started</h1>
+    <span class="text-sm text-bluelightgray">Fill the form to continue</span>
+  </div>
+  <form class="flex flex-col items-start justify-center p-4 gap-2">
+    <label for="email" class="text-xs text-darktext"
+      >Your email address :</label
+    >
+    <input
+      type="email"
+      placeholder="exemple@gmail.com"
+      class="text-xs p-4 rounded-lg text-darktext input-info w-full border-[1px] border-bluelightgray"
+    />
+    <label for="password" class="text-xs text-darktext"
+      >Choose a password :</label
+    >
+    <input
+      type="password"
+      placeholder="min 8 characters"
+      class="text-xs p-4 rounded-lg text-darktext input-info w-full border-[1px] border-bluelightgray"
+    />
+    <div class="flex flex-col justify-center w-full gap-4">
+      <label for="terms" class="flex justify-between w-full gap-2 pt-4">
+        <p class="text-xs text-darktext">I agree to the terms and conditions</p>
+        <input type="checkbox" value="" class="sr-only" />
+        <div
+          class="relative w-7.5 h-4 rounded-full dark:bg-darkBackground peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600"
+        ></div>
+      </label>
+      <button
+        class="text-darktext text-sm bg-lightBackground border-2 animate-border-pulse px-6 py-3 border-primary hover:bg-primary hover:text-lighttext p-4 rounded-lg w-full max-w-base"
+      >
+        Sign Up
+      </button>
+    </div>
+  </form>
+</section>
