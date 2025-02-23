@@ -21,10 +21,12 @@ class RegistrationController extends AbstractController
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $em, SerializerInterface $serializer, ValidatorInterface $validator): JsonResponse
     {
         $user = $serializer->deserialize($request->getContent(), User::class, 'json');
-        $errors = $validator->validate($user);
-        if (count($errors) > 0) {
-            return $this->json($errors, Response::HTTP_BAD_REQUEST);
+        try {
+            $validator->validate($user);
+        } catch (\Exception $e) {
+            return $this->json(['message' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
         }
+        $form = $this->createForm(RegistrationFormType::class, $user);
         $user->setPassword($userPasswordHasher->hashPassword($user, $user->getPlainPassword()));
         $em->persist($user);
         $em->flush();
