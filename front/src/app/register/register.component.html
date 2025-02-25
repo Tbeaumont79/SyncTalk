@@ -8,12 +8,13 @@
     >
   </div>
   <form
-    method="post"
     class="flex flex-col h-2/3 font-roboto items-start justify-center p-4 mt-4 gap-2"
   >
     <label for="email" class="text-xs text-darktext">Email address :</label>
     <input
       type="email"
+      [(ngModel)]="email"
+      name="email"
       placeholder="exemple@gmail.com"
       class="text-xs p-4 font-roboto rounded-lg text-darktext input-info w-full border-[1px] border-bluelightgray"
     />
@@ -22,6 +23,8 @@
     >
     <input
       type="password"
+      [(ngModel)]="password"
+      name="password"
       placeholder="min 8 characters"
       class="text-xs p-4 rounded-lg font-roboto text-darktext input-info w-full border-[1px] border-bluelightgray"
     />
@@ -41,6 +44,7 @@
       </label>
       <button
         class="text-darktext mt-2 font-roboto text-sm bg-lightBackground border-[1.5px] animate-border-pulse hover:border-primary hover:text-lighttext p-4 rounded-lg w-full max-w-base"
+        (click)="register()"
       >
         Sign Up
       </button>
