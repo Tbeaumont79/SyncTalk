@@ -23,7 +23,6 @@ final class MessageController extends AbstractController
     #[Route('/message', name: 'get_message', methods: ['GET'])]
     public function getMessage() : Response {
         $messages = $this->em->getRepository(Message::class)->findAll();
-
         return $this->render('message/index.html.twig', [
             'messages' => $messages,
         ]);
