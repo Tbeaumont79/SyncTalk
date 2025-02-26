@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { RegisterService } from '../services/register.service';
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -12,24 +14,22 @@ import { HttpClient } from '@angular/common/http';
 export class RegisterComponent {
   email: string = '';
   password: string = '';
-  constructor(private http: HttpClient) {}
+
+  constructor(private registerService: RegisterService) {}
 
   register() {
-    if (this.email && this.password) {
-      this.http
-        .post('http://localhost:3000/api/auth/register', {
-          email: this.email,
-          password: this.password,
+    console.log(this.email, this.password, 'Inscription');
+    this.registerService
+      .register(this.email, this.password)
+      .pipe(
+        catchError((error) => {
+          console.error('Erreur lors de l’inscription', error);
+          return throwError(() => error);
         })
-        .subscribe(
-          (response) => {
-            console.log('Registration successful');
-          },
-          (error) => {
-            console.error('Registration failed', error);
-          }
-        );
-  }
-
+      )
+      .subscribe({
+        next: (response) => console.log('Inscription réussie', response),
+        error: (err) => console.error('Erreur', err),
+      });
   }
 }
