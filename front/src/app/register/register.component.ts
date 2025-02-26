@@ -12,12 +12,24 @@ import { HttpClient } from '@angular/common/http';
 export class RegisterComponent {
   email: string = '';
   password: string = '';
-
   constructor(private http: HttpClient) {}
+
   register() {
-    this.http.post('http://localhost:8000/register', {
-      email: this.email,
-      password: this.password,
-    });
+    if (this.email && this.password) {
+      this.http
+        .post('http://localhost:3000/api/auth/register', {
+          email: this.email,
+          password: this.password,
+        })
+        .subscribe(
+          (response) => {
+            console.log('Registration successful');
+          },
+          (error) => {
+            console.error('Registration failed', error);
+          }
+        );
+  }
+
   }
 }
