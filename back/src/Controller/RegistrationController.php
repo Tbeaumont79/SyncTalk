@@ -18,8 +18,9 @@ use Symfony\Component\Serializer\SerializerInterface;
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register', methods: ['POST'])]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $em, SerializerInterface $serializer, ValidatorInterface $validator): JsonResponse
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $em, SerializerInterface $serializer, ValidatorInterface $validator): JsonResponse
     {
+        // le probleme vient du fait que le front envoie un objet email alors que le back attend un username
         $user = $serializer->deserialize($request->getContent(), User::class, 'json');
         try {
             $validator->validate($user);
@@ -27,7 +28,7 @@ class RegistrationController extends AbstractController
             return $this->json(['message' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
         }
         //$form = $this->createForm(RegistrationFormType::class, $user);
-        $user->setPassword($userPasswordHasher->hashPassword($user, $user->getPlainPassword()));
+        $user->setPassword($userPasswordHasher->hashPassword($user, $user->getPassword()));
         $em->persist($user);
         $em->flush();
         return $this->json(['message' => 'User successfully registered'], Response::HTTP_CREATED);
