@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class SecurityController extends AbstractController
 {
-    #[Route(path: '/login', name: 'app_login', methods: ['POST'])]
+    #[Route(path: '/api/login', name: 'api_login', methods: ['POST'])]
     public function login(): JsonResponse
     {
         return $this->json(['message' => 'Login successful']);

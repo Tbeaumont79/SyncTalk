@@ -4,31 +4,34 @@ namespace App\Controller;
 
 use ApiPlatform\Validator\ValidatorInterface;
 use App\Entity\User;
-use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class RegistrationController extends AbstractController
 {
-    #[Route('/register', name: 'app_register', methods: ['POST'])]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $em, SerializerInterface $serializer, ValidatorInterface $validator): JsonResponse
+    #[Route('/api/register', name: 'api_register', methods: ['POST'])]
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $em, ValidatorInterface $validator): JsonResponse
     {
-        // le probleme vient du fait que le front envoie un objet email alors que le back attend un username
-        $user = $serializer->deserialize($request->getContent(), User::class, 'json');
-        try {
-            $validator->validate($user);
-        } catch (\Exception $e) {
-            return $this->json(['message' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+        $data = json_decode($request->getContent(), true);
+        if (!isset($data['username']) || !isset($data['password'])) {
+            return $this->json(['message' => 'Username or password is missing'], 400);
         }
-        //$form = $this->createForm(RegistrationFormType::class, $user);
-        $user->setPassword($userPasswordHasher->hashPassword($user, $user->getPassword()));
+        $existingUser = $em->getRepository(User::class)->findOneBy(['username' => $data['username']]);
+        if ($existingUser) {
+            return $this->json(['message' => 'Username already exists'], 409);
+        }
+        $user = new User();
+        $user->setUsername($data['username']);
+        $user->setPassword($userPasswordHasher->hashPassword($user, $data['password']));
+        $error = $validator->validate($user);
+        if ($error->count() > 0) {
+            return $this->json($error, 400);
+        }
         $em->persist($user);
         $em->flush();
         return $this->json(['message' => 'User successfully registered'], Response::HTTP_CREATED);
