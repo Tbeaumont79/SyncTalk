@@ -10,12 +10,12 @@
   <form
     class="flex flex-col h-2/3 font-roboto items-start justify-center p-4 mt-4 gap-2"
   >
-    <label for="username" class="text-xs text-darktext">Username :</label>
+    <label for="email" class="text-xs text-darktext">Email address :</label>
     <input
-      type="text"
-      [(ngModel)]="username"
-      name="username"
-      placeholder="John Doe"
+      type="email"
+      [(ngModel)]="email"
+      name="email"
+      placeholder="exemple@gmail.com"
       class="text-xs p-4 font-roboto rounded-lg text-darktext input-info w-full border-[1px] border-bluelightgray"
     />
     <label for="password" class="text-xs pt-4 font-roboto text-darktext"
@@ -39,11 +39,11 @@
           class="absolute left-1/2 -translate-x-1/2 w-full h-full peer appearance-none rounded-md"
         />
         <span
-          class="w-8.5 h-5 flex items-center flex-shrink-0 ml-2 p-1 bg-gray-300 rounded-full duration-300 ease-in-out peer-checked:bg-primary after:w-4 after:h-4 after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-2.5"
+          class="w-8.5 h-5 flex items-center flex-shrink-0 ml-2 p-1 bg-gray-300 rounded-full duration-300 ease-in-out peer-checked:bg-primary after:w-4 after:h-4 after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-2.5 group-hover:after:translate-x-1"
         ></span>
       </label>
       <button
-        class="text-darktext mt-2 font-roboto text-sm bg-lightBackground border-[1px] animate-border-pulse hover:border-primary hover:bg-primary hover:text-lighttext p-4 rounded-lg w-full max-w-base"
+        class="text-darktext mt-2 font-roboto text-sm bg-lightBackground border-[1.5px] animate-border-pulse hover:border-primary hover:text-lighttext p-4 rounded-lg w-full max-w-base"
         (click)="register()"
       >
         Sign Up

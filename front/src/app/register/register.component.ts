@@ -12,15 +12,15 @@ import { RegisterService } from '../services/register.service';
   styleUrl: './register.component.css',
 })
 export class RegisterComponent {
-  username: string = '';
+  email: string = '';
   password: string = '';
 
   constructor(private registerService: RegisterService) {}
 
   register() {
-    console.log(this.username, this.password, 'Inscription');
+    console.log(this.email, this.password, 'Inscription');
     this.registerService
-      .register(this.username, this.password)
+      .register(this.email, this.password)
       .pipe(
         catchError((error) => {
           console.error('Erreur lors de l’inscription', error);
@@ -28,9 +28,7 @@ export class RegisterComponent {
         })
       )
       .subscribe({
-        next: (response) => {
-          console.log('Inscription réussie', response);
-        },
+        next: (response) => console.log('Inscription réussie', response),
         error: (err) => console.error('Erreur', err),
       });
   }
