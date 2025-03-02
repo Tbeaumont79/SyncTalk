@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-import { RegisterService } from '../services/register.service';
+import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -15,11 +15,11 @@ export class RegisterComponent {
   email: string = '';
   password: string = '';
 
-  constructor(private registerService: RegisterService) {}
+  constructor(private authService: AuthService) {}
 
   register() {
     console.log(this.email, this.password, 'Inscription');
-    this.registerService
+    this.authService
       .register(this.email, this.password)
       .pipe(
         catchError((error) => {
