@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './message.component.css'
 })
 export class MessageComponent {
-
+  user: any = JSON.parse(localStorage.getItem('user') || '{}');
 }

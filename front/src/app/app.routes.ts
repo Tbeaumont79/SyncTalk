@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { MessageComponent } from './message/message.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { MessageComponent } from './pages/message/message.component';
 
 export const routes: Routes = [
   {
@@ -13,7 +13,7 @@ export const routes: Routes = [
     component: RegisterComponent,
   },
   {
-    path: 'message',
+    path: '',
     component: MessageComponent,
   },
 ];
