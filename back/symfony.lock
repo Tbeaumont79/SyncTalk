@@ -1,6 +1,6 @@
 {
     "api-platform/symfony": {
-        "version": "4.0",
+        "version": "4.1",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",

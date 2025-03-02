@@ -19,7 +19,7 @@ class RegistrationController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
         if (!isset($data['username']) || !isset($data['password'])) {
-            return $this->json(['message' => 'Username or password is missing'], 400);
+            return $this->json(['message' => 'Username or password is missing'.json_encode($data)], 400);
         }
         $existingUser = $em->getRepository(User::class)->findOneBy(['username' => $data['username']]);
         if ($existingUser) {
@@ -28,9 +28,10 @@ class RegistrationController extends AbstractController
         $user = new User();
         $user->setUsername($data['username']);
         $user->setPassword($userPasswordHasher->hashPassword($user, $data['password']));
-        $error = $validator->validate($user);
-        if ($error->count() > 0) {
-            return $this->json($error, 400);
+        try {
+            $validator->validate($user);
+        } catch (\Exception $e) {
+            return $this->json(['message' => $e->getMessage()], 400);
         }
         $em->persist($user);
         $em->flush();
