@@ -9,7 +9,6 @@ import { AuthService } from '../../core/services/auth.service';
   standalone: true,
   imports: [RouterLink, FormsModule],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css',
 })
 export class RegisterComponent {
   email: string = '';

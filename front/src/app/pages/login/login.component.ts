@@ -8,7 +8,6 @@ import { throwError, catchError } from 'rxjs';
   standalone: true,
   imports: [RouterLink, FormsModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
 })
 export class LoginComponent {
   email = '';
