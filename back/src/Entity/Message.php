@@ -7,7 +7,9 @@ use App\Repository\MessageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ApiResource()]
+#[ApiResource(
+    mercure: true
+)]
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
 class Message
 {

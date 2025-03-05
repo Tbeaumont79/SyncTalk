@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-import { AuthService } from '../../core/services/auth.service';
+import { AuthService } from '../../core/services/authentification/auth.service';
 @Component({
   selector: 'app-register',
   standalone: true,

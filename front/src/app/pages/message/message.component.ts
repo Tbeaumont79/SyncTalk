@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { User } from '../../core/interfaces/user';
-import { StorageService } from '../../core/services/storage.service';
+import { StorageService } from '../../core/services/storage/storage.service';
 @Component({
   selector: 'app-message',
   standalone: true,

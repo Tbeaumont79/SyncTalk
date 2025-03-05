@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap, BehaviorSubject, catchError, throwError } from 'rxjs';
-import { StorageService } from './storage.service';
+import { StorageService } from '../storage/storage.service';
 @Injectable({
   providedIn: 'root',
 })
