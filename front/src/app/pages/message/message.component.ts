@@ -19,4 +19,8 @@ export class MessageComponent {
       this.user = JSON.parse(user) as User;
     }
   }
+
+  sendMessage(): void {
+    const messageBox = document.getElementById('message') as HTMLInputElement;
+  }
 }
