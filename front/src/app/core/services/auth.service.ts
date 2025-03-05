@@ -13,10 +13,10 @@ export class AuthService {
     private http: HttpClient,
     private storageService: StorageService
   ) {
-    const token = this.storageService.getItem('token');
-    const user = this.storageService.getItem('user');
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
     if (token && user) {
-      this.currentUserSubject.asObservable();
+      this.currentUserSubject.next(JSON.parse(user));
     }
   }
   register(email: string, password: string): Observable<any> {
@@ -55,5 +55,31 @@ export class AuthService {
           return throwError(() => error);
         })
       );
+  }
+
+  refreshToken(): Observable<any> {
+    const refresh_token = localStorage.getItem('refresh_token');
+    return this.http
+      .post(`${this.API_URL}/token/refresh`, { refresh_token })
+      .pipe(
+        tap((response: any) => {
+          localStorage.setItem('token', response.token);
+        })
+      );
+  }
+
+  logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('user');
+    this.currentUserSubject.next(null);
+  }
+
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token');
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
   }
 }
