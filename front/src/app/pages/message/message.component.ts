@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { User } from '../../core/interfaces/user';
 import { StorageService } from '../../core/services/storage/storage.service';
+import { MercureService } from '../../core/services/mercure/mercure.service';
 @Component({
   selector: 'app-message',
   standalone: true,
@@ -13,14 +14,11 @@ export class MessageComponent {
     username: '',
     email: '',
   };
+  message: string = '';
   constructor(private storageService: StorageService) {
     const user = this.storageService.getItem('user');
     if (user) {
       this.user = JSON.parse(user) as User;
     }
-  }
-
-  sendMessage(): void {
-    const messageBox = document.getElementById('message') as HTMLInputElement;
   }
 }

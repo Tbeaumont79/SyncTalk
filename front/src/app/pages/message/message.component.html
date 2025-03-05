@@ -5,18 +5,17 @@
       Here you can find all your messages
     </p>
   </section>
-  <section id="message-box"></section>
-    <input
-      type="text"
-      name="message"
-      placeholder="message"
-      class="text-xs p-4 rounded-lg font-roboto text-darktext input-info w-full border-[1px] border-bluelightgray"
-    />
-    <button
-      (click)="sendMessage()"
-      class="text-darktext font-roboto text-sm bg-lightBackground border-[1.5px] animate-border-pulse border-primary hover:bg-primary hover:text-lighttext rounded-lg w-full max-w-base"
-      type="submit"
-    >
-      Send
-    </button>
+  <section id="message-box">{{ message }}</section>
+  <input
+    type="text"
+    name="message"
+    placeholder="message"
+    class="text-xs p-4 rounded-lg font-roboto text-darktext input-info w-full border-[1px] border-bluelightgray"
+  />
+  <button
+    class="text-darktext font-roboto text-sm bg-lightBackground border-[1.5px] animate-border-pulse border-primary hover:bg-primary hover:text-lighttext rounded-lg w-full max-w-base"
+    type="submit"
+  >
+    Send
+  </button>
 </article>

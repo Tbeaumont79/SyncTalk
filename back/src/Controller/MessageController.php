@@ -31,7 +31,7 @@ final class MessageController extends AbstractController
 
     #[Route('/message', name: 'send_message', methods: ['POST'])]
     public function sendMessage(Request $request) {
-        $content = $request->get('content');
+        $content = json_decode($request->getContent(), true);
         $author = $this->getUser();
         if ($author) {
             $author = $author->getUserIdentifier();
@@ -40,6 +40,6 @@ final class MessageController extends AbstractController
             throw new \Exception("No User is authenticated ! ");
         }
         $this->messageService->sendMessage($content, $author);
-        return $this->redirect('message');
+        return $this->json(['message' => $content], Response::HTTP_CREATED);
     }
 }
