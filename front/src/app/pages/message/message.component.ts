@@ -1,11 +1,19 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Inject,
+  PLATFORM_ID,
+} from '@angular/core';
 import { User } from '../../core/interfaces/user';
 import { Subscription } from 'rxjs';
 import { StorageService } from '../../core/services/storage/storage.service';
 import { MercureService } from '../../core/services/mercure/mercure.service';
+import { MessageService } from '../../core/services/messages/message.service';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-message',
@@ -23,22 +31,45 @@ export class MessageComponent implements OnInit, OnDestroy {
   messages: any[] = [];
   private subscription: Subscription | null = null;
   private topic = 'https://example.com/messages';
+  private isBrowser: boolean;
 
   constructor(
-    private storageService: StorageService,
-    private mercureService: MercureService,
+    @Inject(PLATFORM_ID) platformId: Object,
+    @Inject(StorageService) private storageService: StorageService,
+    @Inject(MercureService) private mercureService: MercureService,
+    @Inject(MessageService) private messageService: MessageService,
     private http: HttpClient
   ) {
-    const user = this.storageService.getItem('user');
-    if (user) {
-      this.user = JSON.parse(user) as User;
+    console.log('MessageComponent constructor called');
+    this.isBrowser = isPlatformBrowser(platformId);
+    console.log('Is browser environment:', this.isBrowser);
+
+    if (this.isBrowser) {
+      const user = this.storageService.getItem('user');
+      console.log('User from storage:', user);
+      if (user) {
+        this.user = JSON.parse(user) as User;
+      }
     }
   }
 
   ngOnInit() {
-    if (this.mercureService.isBrowserEnvironment()) {
+    this.loadInitialMessages();
+    if (this.isBrowser) {
+      console.log('Mercure service is browser environment');
       this.subscribeToMessages();
     }
+  }
+
+  private loadInitialMessages() {
+    this.messageService.getMessages().subscribe({
+      next: (messages) => {
+        this.messages = messages;
+      },
+      error: (error) => {
+        console.error('Error loading messages:', error);
+      },
+    });
   }
 
   ngOnDestroy() {
@@ -51,8 +82,13 @@ export class MessageComponent implements OnInit, OnDestroy {
     this.subscription = this.mercureService.subscribe(this.topic).subscribe({
       next: (data) => {
         if (data) {
-          console.log('Received message:', data);
-          this.messages.push(data);
+          console.log('Received message from mercure:', data);
+          const messageExists = this.messages.some(
+            (m) => m.content === data.content && m.author === data.author
+          );
+          if (!messageExists) {
+            this.messages.push(data);
+          }
         }
       },
       error: (error) => {
@@ -63,12 +99,16 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   sendMessage() {
     const token = this.storageService.getItem('token');
-
     if (!token) {
       console.error('No authentication token found');
       return;
     }
-    console.log('Sending message:', this.message);
+    const newMessage = {
+      content: this.message,
+      author: this.user.username,
+      created_at: new Date().toISOString(),
+    };
+
     this.http
       .post(
         'http://localhost:8000/api/message',
@@ -83,7 +123,8 @@ export class MessageComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (response) => {
           console.log('Message sent successfully:', response);
-          this.message = ''; // Clear the input after sending
+          this.messages.push(newMessage);
+          this.message = '';
         },
         error: (error) => {
           console.error('Error sending message:', error);
