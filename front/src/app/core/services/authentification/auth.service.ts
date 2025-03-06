@@ -13,8 +13,8 @@ export class AuthService {
     private http: HttpClient,
     private storageService: StorageService
   ) {
-    const token = localStorage.getItem('token');
-    const user = localStorage.getItem('user');
+    const token = storageService.getItem('token');
+    const user = storageService.getItem('user');
     if (token && user) {
       this.currentUserSubject.next(JSON.parse(user));
     }
@@ -27,8 +27,9 @@ export class AuthService {
         tap((response) => {
           console.log('Registration successful', response);
         }),
-        tap((error) => {
+        catchError((error) => {
           console.error('Registration failed', error);
+          return throwError(() => error);
         })
       );
   }

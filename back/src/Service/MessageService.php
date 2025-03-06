@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use Symfony\Component\HttpFoundation\Response;
+
 class MessageService extends AbstractController { 
     private $em;
     private $hub;
@@ -32,9 +33,16 @@ class MessageService extends AbstractController {
             'https://example.com/messages',
             json_encode([
                 'status' => $content,
+                'author' => $author,
+                'created_at' => $message->getCreatedAt()->format('Y-m-d H:i:s')
             ])
-            );
+        );
+
+        try {
             $this->hub->publish($update);
-            return new Response("data published");
+            return new Response("Message published successfully", Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return new Response("Error publishing message: " . $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }

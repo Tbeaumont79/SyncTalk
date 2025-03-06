@@ -2,7 +2,7 @@
   <section>
     <h1 class="text-4xl font-poppins color-darktext text-center">Messages</h1>
     <p class="text-xl font-roboto text-bluelightgray text-center pt-2">
-      Here you can find all your messages
+      Here you can find all your messages {{ user.username }}
     </p>
   </section>
   <section id="message-box">{{ message }}</section>
@@ -10,11 +10,13 @@
     type="text"
     name="message"
     placeholder="message"
+    [(ngModel)]="message"
     class="text-xs p-4 rounded-lg font-roboto text-darktext input-info w-full border-[1px] border-bluelightgray"
   />
   <button
     class="text-darktext font-roboto text-sm bg-lightBackground border-[1.5px] animate-border-pulse border-primary hover:bg-primary hover:text-lighttext rounded-lg w-full max-w-base"
     type="submit"
+    (click)="sendMessage()"
   >
     Send
   </button>

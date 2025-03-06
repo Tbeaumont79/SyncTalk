@@ -20,18 +20,20 @@ final class MessageController extends AbstractController
     }
     
 
-    #[Route('/message', name: 'get_message', methods: ['GET'])]
+    #[Route('/api/message', name: 'get_message', methods: ['GET'])]
     public function getMessage() : Response {
         $messages = $this->em->getRepository(Message::class)->findAll();
-        return $this->render('message/index.html.twig', [
-            'messages' => $messages,
-        ]);
-        return $this->render('message/index.html.twig');
+        return $this->json($messages);
     }
 
-    #[Route('/message', name: 'send_message', methods: ['POST'])]
+    #[Route('/api/message', name: 'send_message', methods: ['POST'])]
     public function sendMessage(Request $request) {
-        $content = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true);
+        if (!isset($data['content'])) {
+            throw new \Exception("Message content is required");
+        }
+        $content = $data['content'];
+        print_r($content);
         $author = $this->getUser();
         if ($author) {
             $author = $author->getUserIdentifier();
