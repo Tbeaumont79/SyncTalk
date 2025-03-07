@@ -122,7 +122,6 @@ export class MessageComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (response) => {
-          console.log('Message sent successfully:', response);
           this.messages.push(newMessage);
           this.message = '';
         },

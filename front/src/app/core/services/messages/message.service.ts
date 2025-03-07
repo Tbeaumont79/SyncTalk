@@ -16,6 +16,7 @@ export class MessageService {
       .get<MercureMessage[]>('http://localhost:8000/api/message')
       .pipe(
         tap((messages: MercureMessage[]) => {
+          console.log('messages : ', messages);
           this.messages = messages;
         }),
         catchError((error) => {
