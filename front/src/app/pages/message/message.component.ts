@@ -14,6 +14,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { isPlatformBrowser } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-message',
@@ -32,7 +33,7 @@ export class MessageComponent implements OnInit, OnDestroy {
   private subscription: Subscription | null = null;
   private topic = 'https://example.com/messages';
   private isBrowser: boolean;
-
+  private router = Inject(Router);
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
     @Inject(StorageService) private storageService: StorageService,
@@ -83,12 +84,7 @@ export class MessageComponent implements OnInit, OnDestroy {
       next: (data) => {
         if (data) {
           console.log('Received message from mercure:', data);
-          // const messageExists = this.messages.some(
-          //   (m) => m.content === data.content && m.author === data.author
-          // );
-          // if (!messageExists) {
-          //   this.messages.push(data);
-          // }
+          this.messages.push(data);
         }
       },
       error: (error) => {
@@ -103,14 +99,14 @@ export class MessageComponent implements OnInit, OnDestroy {
       console.error('No authentication token found');
       return;
     }
-    const newMessage = {
-      content: this.message,
-      author: this.user.username,
-      created_at: new Date().toISOString(),
-    };
 
     this.http
-      .post(
+      .post<{
+        id: number;
+        content: string;
+        author: string;
+        created_at: string;
+      }>(
         'http://localhost:8000/api/message',
         { content: this.message },
         {
@@ -122,12 +118,14 @@ export class MessageComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (response) => {
-          console.log('response au moment de l envoi : ', response);
-          this.messages.push(newMessage);
-          this.message = '';
+          console.log('Message sent successfully: ', response);
         },
         error: (error) => {
           console.error('Error sending message:', error);
+          if (error.status === 401) {
+            console.log('Unauthorized');
+            this.router.navigate(['/login']);
+          }
         },
       });
   }

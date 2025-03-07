@@ -80,7 +80,12 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
+  isAuthenticated(): boolean {
+    const token = this.storageService.getItem('token');
+    return token !== null && token !== undefined;
+  }
+
   getToken(): string | null {
-    return localStorage.getItem('token');
+    return this.storageService.getItem('token');
   }
 }

@@ -23,7 +23,17 @@ final class MessageController extends AbstractController
     #[Route('/api/message', name: 'get_message', methods: ['GET'])]
     public function getMessage() : Response {
         $messages = $this->em->getRepository(Message::class)->findAll();
-        return $this->json($messages);
+        $formattedMessages = array_map(function($message) {
+            return [
+                'id' => $message->getId(),
+                'content' => $message->getContent(),
+                'author' => [
+                    'username' => $message->getAuthor()->getUsername()
+                ],
+                'created_at' => $message->getCreatedAt()->format('Y-m-d H:i:s')
+            ];
+        }, $messages);
+        return $this->json($formattedMessages);
     }
 
     #[Route('/api/message', name: 'send_message', methods: ['POST'])]
@@ -40,7 +50,7 @@ final class MessageController extends AbstractController
         else {
             throw new \Exception("No User is authenticated ! ");
         }
-        $this->messageService->sendMessage($content, $author);
-        return $this->json([$content], Response::HTTP_CREATED);
+        $response = $this->messageService->sendMessage($content, $author);
+        return $this->json($response, Response::HTTP_CREATED);
     }
 }
