@@ -10,7 +10,7 @@
     <div
       class="flex items-center justify-start bg-red-200 border-red-400 border-2 rounded-lg w-full md:max-w-[800px] lg:max-w-[1000px]"
     >
-      <p class="text-red-950 font-bold font-roboto p-1 text-xs">
+      <p class="text-red-950 font-bold font-roboto p-2 text-xs">
         {{ errorMessage }}
       </p>
     </div>
@@ -42,6 +42,7 @@
     <button
       class="text-darktext font-roboto mt-4 p-4 text-sm bg-lightBackground border-[1.5px] animate-border-pulse border-primary hover:bg-primary hover:text-lighttext rounded-lg w-full max-w-base"
       (click)="login()"
+      [disabled]="isLoading"
     >
       Login
     </button>

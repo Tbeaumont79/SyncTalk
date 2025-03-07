@@ -1,8 +1,8 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/authentification/auth.service';
-import { throwError, catchError } from 'rxjs';
+import { throwError, catchError, takeUntil, Subject, finalize } from 'rxjs';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
@@ -14,27 +14,46 @@ export class LoginComponent {
   email = '';
   password = '';
   errorMessage = '';
-  constructor(
-    @Inject(AuthService) private authService: AuthService,
-    @Inject(Router) private router: Router
-  ) {}
+  isLoading = false;
+  private destroy$ = new Subject<void>();
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
+  constructor() {}
 
   login() {
+    if (this.email === '' || this.password === '') {
+      this.errorMessage = 'Please enter your email and password';
+      return;
+    }
+    this.isLoading = true;
     this.authService
       .login(this.email, this.password)
       .pipe(
+        takeUntil(this.destroy$),
         catchError((error) => {
-          this.errorMessage = 'Invalid username or password';
+          if (error.status === 401) {
+            this.errorMessage = 'Invalid username or password';
+          } else if (error.status === 0) {
+            this.errorMessage =
+              'An error occured, please check your internet connection';
+          } else {
+            this.errorMessage = 'An error occured';
+          }
           return throwError(() => error);
+        }),
+        finalize(() => {
+          this.isLoading = false;
         })
       )
       .subscribe({
-        next: (response) => {
-          console.log('Login successful', response);
+        next: () => {
           this.router.navigate(['/']);
         },
-        error: (err) => console.error('Login failed', err),
       });
-    console.log(this.email, this.password);
+  }
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
