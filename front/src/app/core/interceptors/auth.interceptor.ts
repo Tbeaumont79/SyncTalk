@@ -25,7 +25,6 @@ export const AuthInterceptor: HttpInterceptorFn = (
       },
     });
     console.log('AuthInterceptor: Added token to request');
-
     return next(clonedReq).pipe(
       catchError((error) => {
         console.log('AuthInterceptor: Caught error', error);

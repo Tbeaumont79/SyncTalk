@@ -12,6 +12,7 @@ import { throwError, catchError } from 'rxjs';
 export class LoginComponent {
   email = '';
   password = '';
+  errorMessage = '';
   constructor(private authService: AuthService) {}
 
   login() {
@@ -19,7 +20,7 @@ export class LoginComponent {
       .login(this.email, this.password)
       .pipe(
         catchError((error) => {
-          console.error('Login failed', error);
+          this.errorMessage = "Invalid username or password";
           return throwError(() => error);
         })
       )
