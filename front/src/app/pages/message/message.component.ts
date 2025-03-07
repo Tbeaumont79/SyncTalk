@@ -83,12 +83,12 @@ export class MessageComponent implements OnInit, OnDestroy {
       next: (data) => {
         if (data) {
           console.log('Received message from mercure:', data);
-          const messageExists = this.messages.some(
-            (m) => m.content === data.content && m.author === data.author
-          );
-          if (!messageExists) {
-            this.messages.push(data);
-          }
+          // const messageExists = this.messages.some(
+          //   (m) => m.content === data.content && m.author === data.author
+          // );
+          // if (!messageExists) {
+          //   this.messages.push(data);
+          // }
         }
       },
       error: (error) => {
@@ -122,6 +122,7 @@ export class MessageComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (response) => {
+          console.log('response au moment de l envoi : ', response);
           this.messages.push(newMessage);
           this.message = '';
         },

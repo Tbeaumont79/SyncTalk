@@ -32,7 +32,7 @@ class MessageService extends AbstractController {
         $update = new Update(
             'https://example.com/messages',
             json_encode([
-                'status' => $content,
+                'content' => $content,
                 'author' => $author,
                 'created_at' => $message->getCreatedAt()->format('Y-m-d H:i:s')
             ])

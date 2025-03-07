@@ -46,15 +46,8 @@ export class MercureService {
         const url = new URL(this.hubUrl);
         url.searchParams.append('topic', topic);
 
-        const token = this.storageService.getItem('token');
-        console.log('Token available:', !!token);
-
         let eventSourceUrl: string;
-        if (token) {
-          eventSourceUrl = `${url.toString()}?authorization=Bearer ${token}`;
-        } else {
-          eventSourceUrl = url.toString();
-        }
+        eventSourceUrl = url.toString();
 
         console.log('Connecting to EventSource URL:', eventSourceUrl);
         eventSource = new EventSource(eventSourceUrl, {

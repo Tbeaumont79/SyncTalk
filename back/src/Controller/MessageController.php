@@ -33,7 +33,6 @@ final class MessageController extends AbstractController
             throw new \Exception("Message content is required");
         }
         $content = $data['content'];
-        print_r($content);
         $author = $this->getUser();
         if ($author) {
             $author = $author->getUserIdentifier();
@@ -42,6 +41,6 @@ final class MessageController extends AbstractController
             throw new \Exception("No User is authenticated ! ");
         }
         $this->messageService->sendMessage($content, $author);
-        return $this->json(['message' => $content], Response::HTTP_CREATED);
+        return $this->json([$content], Response::HTTP_CREATED);
     }
 }
