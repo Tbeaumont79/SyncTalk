@@ -8,34 +8,77 @@
     >
   </div>
   <form
+    [formGroup]="registerForm"
+    (ngSubmit)="onSubmit()"
     class="flex flex-col h-2/3 font-roboto items-start justify-center p-4 mt-4 gap-2"
   >
-    <label for="email" class="text-xs text-darktext">Email address :</label>
-    <input
-      type="email"
-      [(ngModel)]="email"
-      name="email"
-      placeholder="exemple@gmail.com"
-      class="text-xs p-4 font-roboto rounded-lg text-darktext input-info w-full border-[1px] border-bluelightgray"
-    />
-    <label for="password" class="text-xs pt-4 font-roboto text-darktext"
-      >Password :</label
+    @if (errorMessage) {
+    <div
+      class="flex items-center justify-start bg-red-200 border-red-400 border-2 rounded-lg w-full md:max-w-[800px] lg:max-w-[1000px]"
     >
-    <input
-      type="password"
-      [(ngModel)]="password"
-      name="password"
-      placeholder="min 8 characters"
-      class="text-xs p-4 rounded-lg font-roboto text-darktext input-info w-full border-[1px] border-bluelightgray"
-    />
+      <p class="text-red-950 font-bold font-roboto p-2 text-xs">
+        {{ errorMessage }}
+      </p>
+    </div>
+    }
+    <div class="w-full">
+      <label for="email" class="text-xs text-darktext">Email address :</label>
+      <input
+        type="email"
+        id="email"
+        formControlName="email"
+        placeholder="exemple@gmail.com"
+        class="text-xs p-4 font-roboto rounded-lg text-darktext input-info w-full border-[1px]"
+        [ngClass]="{
+          'border-red-400': emailControl?.invalid && emailControl?.touched,
+          'border-bluelightgray':
+            !emailControl?.invalid || !emailControl?.touched
+        }"
+      />
+      @if (emailControl?.invalid && emailControl?.touched) {
+      <p class="text-xs text-red-500 mt-1">
+        @if (emailControl?.errors?.['required']) { Email is required } @else if
+        (emailControl?.errors?.['email']) { Please enter a valid email address }
+      </p>
+      }
+    </div>
+    <div class="w-full">
+      <label for="password" class="text-xs pt-4 font-roboto text-darktext"
+        >Password :</label
+      >
+      <input
+        type="password"
+        id="password"
+        formControlName="password"
+        placeholder="min 8 characters"
+        class="text-xs p-4 rounded-lg font-roboto text-darktext input-info w-full border-[1px]"
+        [ngClass]="{
+          'border-red-400':
+            passwordControl?.invalid && passwordControl?.touched,
+          'border-bluelightgray':
+            !passwordControl?.invalid || !passwordControl?.touched
+        }"
+      />
+      @if (passwordControl?.invalid && passwordControl?.touched) {
+      <p class="text-xs text-red-500 mt-1">
+        @if (passwordControl?.errors?.['required']) { Password is required }
+        @else if (passwordControl?.errors?.['minlength']) { Password must be at
+        least 8 characters }
+      </p>
+      }
+    </div>
     <div class="flex flex-col justify-center w-full gap-4">
       <label
         class="relative flex justify-between items-center group p-2 text-xs"
       >
-        I Agree to terms and conditions
+        <span
+          [class.text-red-500]="termsControl?.invalid && termsControl?.touched"
+        >
+          I Agree to terms and conditions
+        </span>
         <input
           type="checkbox"
-          required
+          formControlName="terms"
           class="absolute left-1/2 -translate-x-1/2 w-full h-full peer appearance-none rounded-md"
         />
         <span
@@ -43,17 +86,19 @@
         ></span>
       </label>
       <button
+        type="submit"
         class="text-darktext mt-2 font-roboto text-sm bg-lightBackground border-[1.5px] animate-border-pulse hover:border-primary hover:text-lighttext p-4 rounded-lg w-full max-w-base"
-        (click)="register()"
+        [disabled]="isLoading || registerForm.invalid"
+        [class.opacity-50]="isLoading || registerForm.invalid"
       >
         Sign Up
       </button>
       <span class="text-xs font-roboto pt-4 text-bluelightgray"
         >Already have an account ?
-        <router-link
+        <a
+          routerLink="/login"
           class="text-xs text-darktext font-roboto hover:text-primary"
-          [routerLink]="['/login']"
-          >Sign In</router-link
+          >Sign In</a
         >
       </span>
     </div>
