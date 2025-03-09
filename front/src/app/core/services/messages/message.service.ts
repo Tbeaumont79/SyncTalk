@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
@@ -9,7 +9,7 @@ import { MercureMessage } from '../../interfaces/mercureMessage';
 })
 export class MessageService {
   messages: MercureMessage[] = [];
-  constructor(@Inject(HttpClient) private http: HttpClient) {}
+  private http = inject(HttpClient);
 
   getMessages() {
     return this.http

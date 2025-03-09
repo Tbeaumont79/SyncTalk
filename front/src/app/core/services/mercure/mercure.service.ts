@@ -1,7 +1,6 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID, inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
-import { StorageService } from '../storage/storage.service';
 import { MercureMessage } from '../../interfaces/mercureMessage';
 @Injectable({
   providedIn: 'root',
@@ -9,12 +8,9 @@ import { MercureMessage } from '../../interfaces/mercureMessage';
 export class MercureService {
   private hubUrl = 'http://localhost:3000/.well-known/mercure';
   private isBrowser: boolean;
-
-  constructor(
-    @Inject(PLATFORM_ID) platformId: Object,
-    @Inject(StorageService) private storageService: StorageService
-  ) {
-    this.isBrowser = isPlatformBrowser(platformId);
+  private platformId = inject(PLATFORM_ID);
+  constructor() {
+    this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
   isBrowserEnvironment(): boolean {

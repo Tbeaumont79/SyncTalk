@@ -1,4 +1,4 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
@@ -6,9 +6,9 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class StorageService {
   private isBrowser: boolean;
-
-  constructor(@Inject(PLATFORM_ID) platformId: Object) {
-    this.isBrowser = isPlatformBrowser(platformId);
+  private platformId = inject(PLATFORM_ID);
+  constructor() {
+    this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
   getItem(key: string): string | null {
