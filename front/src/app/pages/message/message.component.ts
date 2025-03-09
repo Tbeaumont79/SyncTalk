@@ -99,7 +99,7 @@ export class MessageComponent implements OnInit, OnDestroy {
       console.error('No authentication token found');
       return;
     }
-
+    console.log('Sending message:', this.message, 'and author : ', this.user);
     this.http
       .post<{
         id: number;

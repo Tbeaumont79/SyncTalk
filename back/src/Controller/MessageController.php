@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Message;
 use App\Service\MessageService;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\DocBlock\Tags\Author;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,9 +28,7 @@ final class MessageController extends AbstractController
             return [
                 'id' => $message->getId(),
                 'content' => $message->getContent(),
-                'author' => [
-                    'username' => $message->getAuthor()->getUsername()
-                ],
+                'author' => $message->getAuthor(),
                 'created_at' => $message->getCreatedAt()->format('Y-m-d H:i:s')
             ];
         }, $messages);

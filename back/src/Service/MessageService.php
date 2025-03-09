@@ -23,7 +23,8 @@ class MessageService extends AbstractController {
         $message = new Message();
         $message->setContent($content);
         $message->setCreatedAt(new \DateTimeImmutable());
-        $foundedAuthor = $this->em->getRepository(User::class)->findOneBy(['username' => $author]);
+        $username = explode('@', $author)[0];
+        $foundedAuthor = $this->em->getRepository(User::class)->findOneBy(['username' => $username]);
         $message->setAuthor($foundedAuthor);
 
         $this->em->persist($message);
