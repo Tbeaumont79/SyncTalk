@@ -8,6 +8,14 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/authentification/auth.service';
+import {
+  takeUntil,
+  catchError,
+  throwError,
+  Subject,
+  finalize,
+  tap,
+} from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -23,7 +31,7 @@ export class RegisterComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
   private formBuilder = inject(FormBuilder);
-
+  private destroy$ = new Subject<void>();
   constructor() {
     this.registerForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -42,34 +50,29 @@ export class RegisterComponent {
       }
       return;
     }
-
     this.isLoading = true;
     this.errorMessage = '';
-
     const { email, password } = this.registerForm.value;
-
-    this.authService.register(email, password).subscribe({
-      next: () => {
-        this.router.navigate(['/']);
-      },
-      error: (error) => {
-        this.isLoading = false;
-        if (error.status === 409) {
-          this.errorMessage = 'This email is already registered';
-        } else if (error.status === 0) {
-          this.errorMessage =
-            'Unable to connect to the server. Please check your internet connection.';
-        } else {
-          this.errorMessage = error.message || 'An unexpected error occurred';
-        }
-        console.error('Registration error:', error);
-      },
-      complete: () => {
-        this.isLoading = false;
-      },
-    });
+    this.authService
+      .register(email, password)
+      .pipe(
+        takeUntil(this.destroy$),
+        catchError((error) => {
+          this.errorMessage = error.message;
+          return throwError(() => error);
+        }),
+        finalize(() => {
+          this.isLoading = false;
+        })
+      )
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/']);
+        },
+      });
   }
 
+  // Getters pour la validation du formulaire
   get emailControl() {
     return this.registerForm.get('email');
   }

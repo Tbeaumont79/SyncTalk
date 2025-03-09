@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParameterCodec } from '@angular/common/http';
 import { Observable, tap, BehaviorSubject, catchError, throwError } from 'rxjs';
 import { StorageService } from '../storage/storage.service';
 @Injectable({
@@ -20,18 +20,21 @@ export class AuthService {
     }
   }
   register(email: string, password: string): Observable<any> {
-    const username = email.split('@')[0];
-    return this.http
-      .post(`${this.API_URL}/register`, { username, password })
-      .pipe(
-        tap((response) => {
-          console.log('Registration successful', response);
-        }),
-        catchError((error) => {
-          console.error('Registration failed', error);
-          return throwError(() => error);
-        })
-      );
+    console.log('dans le service : ', email, password);
+    return this.http.post(`${this.API_URL}/register`, { email, password }).pipe(
+      tap((response: any) => {
+        console.log('Registration successful', response);
+        this.storageService.setItem('token', response.token);
+        this.storageService.setItem('refresh_token', response.refresh_token);
+        this.storageService.setItem('user', JSON.stringify(response.user));
+        this.currentUserSubject.next(response.user);
+        console.log('Registration successful', response);
+      }),
+      catchError((error: Error) => {
+        console.error('Registration failed', error);
+        return throwError(() => error);
+      })
+    );
   }
 
   login(email: string, password: string): Observable<any> {
@@ -52,7 +55,7 @@ export class AuthService {
           this.storageService.setItem('user', JSON.stringify(user));
           this.currentUserSubject.next(user);
         }),
-        catchError((error) => {
+        catchError((error: Error) => {
           return throwError(() => error);
         })
       );
