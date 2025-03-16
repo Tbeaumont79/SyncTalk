@@ -1,4 +1,6 @@
-<article>
+<article
+  class="flex flex-col items-start md:w-1/2 md:m-auto lg:w-1/2 lg:m-auto"
+>
   <section>
     <h1 class="text-4xl font-poppins color-darktext text-center">Messages</h1>
     <p class="text-xl font-roboto text-bluelightgray text-center pt-2">
@@ -8,7 +10,9 @@
   <section id="message-box">
     @for (message of messages; track message.id) { @if (message.content.length >
     0) {
-    <p>{{ message.author?.username }} - {{ message.created_at | date : "HH:mm" }}</p>
+    <p>
+      {{ message.author?.username }} - {{ message.created_at | date : "HH:mm" }}
+    </p>
     <p>{{ message.content }}</p>
     } }
   </section>
@@ -17,10 +21,10 @@
     name="message"
     placeholder="message"
     [(ngModel)]="message"
-    class="text-xs p-4 rounded-lg font-roboto text-darktext input-info w-full border-[1px] border-bluelightgray"
+    class="text-xs p-4 rounded-lg mt-5 font-roboto text-darktext input-info w-full border-[1px] border-bluelightgray"
   />
   <button
-    class="text-darktext font-roboto text-sm bg-lightBackground border-[1.5px] animate-border-pulse border-primary hover:bg-primary hover:text-lighttext rounded-lg w-full max-w-base"
+    class="text-darktext p-2 mt-5 font-roboto text-sm bg-lightBackground border-[1.5px] animate-border-pulse border-primary hover:bg-primary hover:text-lighttext rounded-lg w-full max-w-base"
     type="submit"
     (click)="sendMessage()"
   >
